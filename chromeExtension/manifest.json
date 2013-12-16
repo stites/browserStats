@@ -1,13 +1,17 @@
 {
-  "name": "Typed URL History",
-  "version": "1.2",
-  "description": "Reads your history, and shows the top ten pages you go to by typing the URL.",
+  "name": "BrowserStats",
+  "version": "0.1",
+  "description": "",
+  "background": { "scripts": ["extension.js"] },
   "permissions": [
-    "history"
+    "history",
+    "webNavigation",
+    "tabs"
   ],
-  "browser_action": {
-    "default_popup": "extension.html",
-    "default_icon": "clock.png"
+  "page_action": {
+    // "default_popup": "extension.html",
+    "default_icon": "clock.png",
+    "default_title" : "BrowserStats"
   },
   "manifest_version": 2
 }
