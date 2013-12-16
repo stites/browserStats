@@ -14,13 +14,15 @@ TechStack additions for v2:
 
 Sprint 1:
 + populate firebase with desired data
-- display data in a page
-- [big] get D3 to visualize this data as a tree
++ display data in a page
 
 Sprint 2:
 - have chrome extension monitor user's browsing history
 - send history to firebase
 - make sure that Sprint 1 works
+
+Sprint 3:
+- [big] get D3 to visualize this data as a tree
 
 Sprint 3:
 - hook into Readability's API
