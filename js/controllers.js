@@ -1,8 +1,7 @@
 angular.module('browserStats')
 
-.controller('UserStats', function($scope, $http){
+.controller('UserStats', function($scope, $firebase){
   var fred = new Firebase('https://stites.firebaseio.com/Users/Fred');
-
   //Log me in
   fred.auth('Eo85u1MXfxVA4udvqIdjnyTYkL51Zz0AFABP962M', function(error, result) {
     if(error) {
@@ -12,12 +11,6 @@ angular.module('browserStats')
       console.log('Auth expires at:', new Date(result.expires * 1000));
     }
   });
+  $scope.histItems = $firebase(fred);
 
-  $scope.sort = "-visits";
-  $http({
-    method: 'GET',
-    url: '/links'
-  }).success(function(data) {
-    $scope.links = data;
-  });
 });
