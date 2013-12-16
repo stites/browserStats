@@ -1,11 +1,24 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" ng-app='browserStats'>
 <head>
   <meta charset="UTF-8">
   <title>BrowserStats</title>
 </head>
 <body>
-  <h1>Hello World</h1>
+  <h1>browser Stats</h1>
+  <div ng-controller="UserStats">
+    <span>UserStats:</span>
+    <ul>
+      <li ng-repeat="histItem in histItems | orderBy:title">
+        <div class="info">
+          <div class="title">title: {{ histItem.title }} </div>
+          <div class="url">url: {{ histItem.url }} </div>
+          <div class="otherdata">otherdata: {{ histItem.otherdata }} </div>
+          <!-- <a ng-href="{{ histItem.url }}">{{ histItem.url }}</a> -->
+        </div>
+      </li>
+    </ul>
+  </div>
 </body>
 <script src='bower_components/angular/angular.js'></script>
 <script src='bower_components/d3/d3.js'></script>

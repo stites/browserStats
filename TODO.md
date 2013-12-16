@@ -13,7 +13,7 @@ TechStack additions for v2:
 + NodeNatural
 
 Sprint 1:
-- populate firebase with desired data
++ populate firebase with desired data
 - display data in a page
 - [big] get D3 to visualize this data as a tree
 
