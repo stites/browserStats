@@ -12,5 +12,5 @@ logs
 results
 
 npm-debug.log
-node_modules
-bower_components
+interface/node_modules
+interface/bower_components
