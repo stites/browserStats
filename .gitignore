@@ -14,3 +14,4 @@ results
 npm-debug.log
 interface/node_modules
 interface/bower_components
+chromeExtension/bower_components
