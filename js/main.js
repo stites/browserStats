@@ -9,5 +9,3 @@ fred.auth('Eo85u1MXfxVA4udvqIdjnyTYkL51Zz0AFABP962M', function(error, result) {
     console.log('Auth expires at:', new Date(result.expires * 1000));
   }
 });
-fred.push({url:'link1', title:'title1', otherdata:"otherdata1"});
-fred.push({url:'link2', title:'title2', otherdata:"otherdata2"});
