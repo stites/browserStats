@@ -17,7 +17,7 @@ Sprint 1:
 + display data in a page
 
 Sprint 2:
-- have chrome extension monitor user's browsing history
+- [big] have chrome extension monitor user's browsing history
 - send history to firebase
 - make sure that Sprint 1 works
 
