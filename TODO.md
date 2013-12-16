@@ -17,9 +17,9 @@ Sprint 1:
 + display data in a page
 
 Sprint 2:
-- [big] have chrome extension monitor user's browsing history
-- send history to firebase
-- make sure that Sprint 1 works
++ [big] have chrome extension monitor user's browsing history
++ send history to firebase
++ make sure that Sprint 1 works
 
 Sprint 3:
 - [big] get D3 to visualize this data as a tree
