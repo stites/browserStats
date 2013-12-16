@@ -16,7 +16,7 @@ var sendToDataBase = function () {
 
 var addToFirebase = function (histItem) {
   var fred = new Firebase('https://stites.firebaseio.com/Users/Fred');
-  //Log me in
+
   fred.auth('Eo85u1MXfxVA4udvqIdjnyTYkL51Zz0AFABP962M', function(error, result) {
     if(error) {
       console.log("Login Failed!", error);
@@ -25,8 +25,7 @@ var addToFirebase = function (histItem) {
       console.log('Auth expires at:', new Date(result.expires * 1000));
     }
   });
-  console.log(~~histItem.lastVisitTime);
-  fred.child(~~histItem.lastVisitTime).set(histItem);
+  fred.child(Math.round(histItem.lastVisitTime)).set(histItem);
 };
 
 document.addEventListener('DOMContentLoaded', function () {
