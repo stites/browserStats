@@ -68,6 +68,28 @@ function buildTypedUrlList(divName) {
       }
     });
 
+  chrome.history.search({
+      'text': '',              // Return every history item....
+      'startTime': oneWeekAgo  // that was accessed less than one week ago.
+    },
+    function(historyItems) {
+      // For each history item, get details on all visits.
+      for (var i = 0; i < historyItems.length; ++i) {
+        var url = historyItems[i].url;
+        var processVisitsWithUrl = function(url) {
+          // We need the url of the visited item to process the visit.
+          // Use a closure to bind the  url into the callback's args.
+          return function(visitItems) {
+            processVisits(url, visitItems);
+          };
+        };
+        chrome.history.getVisits({url: url}, processVisitsWithUrl(url));
+        numRequestsOutstanding++;
+      }
+      if (!numRequestsOutstanding) {
+        onAllVisitsProcessed();
+      }
+    });
 
   // Maps URLs to a count of the number of times the user typed that URL into
   // the omnibox.
@@ -114,6 +136,22 @@ function buildTypedUrlList(divName) {
   };
 }
 
+var addToFirebase = function (histItem) {
+  console.log(histItem);
+}
+
 document.addEventListener('DOMContentLoaded', function () {
+  var microsecondsPerWeek = 1000 * 60 * 60 * 24 * 7;
+  var oneWeekAgo = (new Date).getTime() - microsecondsPerWeek;
+
   buildTypedUrlList("typedUrl_div");
+  chrome.history.search({
+      'text': '',
+      'startTime': oneWeekAgo
+    },
+    function(historyItems) {
+      for (var i = 0; i < historyItems.length; ++i) {
+        addToFirebase(historyItems[i]);
+      }
+    });
 });
