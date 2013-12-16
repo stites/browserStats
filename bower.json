@@ -17,6 +17,7 @@
   "dependencies": {
     "d3": "~3.3.13",
     "firebase": "~1.0.1",
-    "angular": "~1.2.5"
+    "angular": "~1.2.5",
+    "angularfire": "~0.5.0"
   }
 }
