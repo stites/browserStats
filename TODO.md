@@ -6,6 +6,12 @@ TechStack v1:
 + D3
 + Firebase
 
+TechStack additions for v2:
++ Readability API
++ Express/node
++ redis
++ NodeNatural
+
 Sprint 1:
 - populate firebase with desired data
 - display data in a page
