@@ -11,6 +11,5 @@ angular.module('browserStats')
       console.log('Auth expires at:', new Date(result.expires * 1000));
     }
   });
-  $scope.histItems = $firebase(fred);
-
+  $scope.histItems = $firebase(fred.limit(10));
 });
