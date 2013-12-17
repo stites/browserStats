@@ -1,1 +1,1 @@
-angular.module('browserStats', ['firebase']);
+angular.module('browserStats', ['firebase', 'd3']);

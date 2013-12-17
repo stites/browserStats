@@ -12,4 +12,5 @@ angular.module('browserStats')
     }
   });
   $scope.histItems = $firebase(fred.limit(10));
-});
+})
+

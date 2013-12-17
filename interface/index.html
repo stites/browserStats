@@ -3,22 +3,47 @@
 <head>
   <meta charset="UTF-8">
   <title>BrowserStats</title>
+  <style>
+  svg {
+
+  }
+
+  .node circle {
+    fill: #fff;
+    stroke: steelblue;
+    stroke-width: 1.5px;
+  }
+
+  .node {
+    font: 10px sans-serif;
+  }
+
+  .link {
+    fill: none;
+    stroke: #ccc;
+    stroke-width: 1.5px;
+  }
+
+  </style>
 </head>
 <body>
-  <h1>browser Stats</h1>
-  <div ng-controller="UserStats">
-    <span>UserStats:</span>
-    <ul>
-      <li ng-repeat="histItem in histItems | orderBy:title">
-        <div class="info">
-          <div class="title">title: {{ histItem.title | limitTo:50 }} </div>
-          <div class="url">url: {{ histItem.url | limitTo:50 }} </div>
-          <div class="typedCount">typedCount: {{ histItem.typedCount }} </div>
-          <div class="visitCount">visitCount: {{ histItem.visitCount }} </div>
-          <!-- <a ng-href="{{ histItem.url }}">{{ histItem.url }}</a> -->
-        </div>
-      </li>
-    </ul>
+  <h1>Browser Stats</h1>
+  <div class='stats'>
+    <div ng-controller="UserStats">
+      <span>UserStats:</span>
+      <ul>
+        <li ng-repeat="histItem in histItems | orderBy:title">
+          <div class="info">
+            <div class="title">title: {{ histItem.title | limitTo:50 }} </div>
+            <div class="url">url: {{ histItem.url | limitTo:50 }} </div>
+            <div class="typedCount">typedCount: {{ histItem.typedCount }} </div>
+            <div class="visitCount">visitCount: {{ histItem.visitCount }} </div>
+            <!-- <a ng-href="{{ histItem.url }}">{{ histItem.url }}</a> -->
+          </div>
+        </li>
+      </ul>
+      <div ng-viz bar-height="20" bar-padding="5"></div>
+    </div>
   </div>
 </body>
 <script src='bower_components/firebase/lib/firebase.js'></script>
@@ -27,4 +52,6 @@
 <script src='bower_components/d3/d3.js'></script>
 <script src='js/main.js'></script>
 <script src='js/controllers.js'></script>
+<script src='js/d3Injection.js'></script>
+<script src='js/directives.js'></script>
 </html>
