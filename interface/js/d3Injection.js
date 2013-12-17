@@ -7,7 +7,9 @@ angular.module('d3', [])
       var svg = d3.select(element).append('svg').attr({
         'width': width,
         'height': height
-      });
+        })
+        .append('g')
+        .attr("transform", "translate(40,0)");
       return svg;
     }
   };
