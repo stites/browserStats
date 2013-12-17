@@ -32,10 +32,10 @@
 [+]Sprint 5.7:
 + bugFix ==> paths are not configuring correctly!
 
-[ ]Sprint 6:
+[+]Sprint 6:
 - _REMOVE ANGULAR_
-- display the data of all nodes in the visible tree in a seperate pane
-- display names on nodes
++ display the data of all nodes in the visible tree in a seperate pane
++ display names on nodes
 
 [ ]Sprint 7:
 - beautify

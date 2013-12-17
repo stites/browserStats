@@ -166,13 +166,41 @@ var update = function (source) {
 };
 
 var toggleDetails = function (datum) {
-  // if (datum.values) {
-    d3.select(".stats")
-        .append('div')
-        .text(datum.title)
-        .style('margin', '10px')
-        .style('color', 'white')
-// }
+  if (datum._values) {
+    if (datum._values[0].url){
+      for (var i = 0; i < datum._values.length; i++) {
+          d3.select(".stats")
+              .append('div')
+              .html('<div class="info">'+
+                      '<div class="url"><a ng-href="'+datum._values[i].url+'">'+datum._values[i].title+'</a></div>'+
+                      '<div class="typedCount">typedCount: '+datum._values[i].typedCount+' </div>'+
+                      '<div class="visitCount">visitCount: '+datum._values[i].visitCount+'</div>'+
+                      '<div class="topic">topic: '+datum._values[i].topic+'</div></div>')
+              .style('margin', '10px')
+              .style('color', 'white');
+      }
+    } else {
+      // Maybe for another time
+      // ======================
+      // d3.select(".stats")
+      //       .append('div')
+      //       .text(datum.key)
+      //       .style('margin', '10px')
+      //       .style('color', 'white');
+    }
+  } else {
+    // Actually use databinding for this one
+    // =====================================
+    // if (datum.values[0].url){
+    //   for (var i = 0; i < datum._values.length; i++) {
+    //       d3.select(".stats")
+    //           .append('div')
+    //           .text(datum._values[i].title)
+    //           .style('margin', '10px')
+    //           .style('color', 'white');
+    //    }
+    // }
+  }
 }
 
 
