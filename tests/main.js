@@ -62,12 +62,12 @@ function toggle(d) {
 
 
 var tree = createTreeLayout(height, width);
-var diagonal = createDiagonal();
+var diagonal = d3.svg.diagonal().projection(function(d) { return [d.y, d.x]; });
 var svgCanvas = createSvg(height, width, margins);
 
-root = json;
-root.x0 = height / 2;
-root.y0 = 0;
+// root = json;
+// root.x0 = height / 2;
+// root.y0 = 0;
 
 // Initialize the display to show a few nodes.
 // root.values.forEach(toggleAll);
@@ -76,29 +76,19 @@ root.y0 = 0;
 // toggle(root.values[9]);
 // toggle(root.values[9].values[0]);
 
-update(root);
+// update(root);
 
 function update(source, ab) {
   var duration = 500;
 
-  if (ab){
-    tree = createTreeLayout(height, width);
-    var nodes = tree.nodes(root);
-    nodes.forEach(function(d) {
-      d.name = d.key || d.title;
-      d.y = d.depth * 200;
-      d.id = 0;
-    });
-    // console.log(nodes);
-    // var links = tree.links(nodes);
-  } else {
-    var nodes = tree.nodes(root);
-    nodes.forEach(function(d) {
-      d.y = d.depth * 200;
-    });
-  }
+  var nodes = tree.nodes(root);
+  nodes.forEach(function(d) {
+    d.key = d.key || d.title;
+    d.y = d.depth * 200;
+    d.id = 0;
+  });
 
-  // Update the nodes…
+  // Update the nodes with ids for links
   var node = svgCanvas.selectAll("g.node")
       .data(nodes, function(d) {
         return d.id || (d.id = ++i);
@@ -151,10 +141,8 @@ function update(source, ab) {
 
   var links = tree.links(nodes);
   // console.log(links)
-  // Update the links…
   var link = svgCanvas.selectAll("path.link")
       .data(links, function(d) {
-        // console.log(d);
         return d.target.id;
       });
 
@@ -174,8 +162,9 @@ function update(source, ab) {
       .duration(duration)
       .attr("d", diagonal);
 
-  // Transition exiting nodes to the parent's new position.
-  link.exit().transition()
+  // // Transition exiting nodes to the parent's new position.
+  link.exit()
+      .transition()
       .duration(duration)
       .attr("d", function(d) {
         var o = {x: source.x, y: source.y};
@@ -192,7 +181,6 @@ function update(source, ab) {
 
 
 
-/*
 var fred = new Firebase('https://stites.firebaseio.com/Users/Fred');
 fred.auth('Eo85u1MXfxVA4udvqIdjnyTYkL51Zz0AFABP962M', function(error, result) {
   if(error) {
@@ -217,4 +205,4 @@ fred.on("value", function(fb) {
   // toggle(root.values[0]);
   // toggle(root.values[0].values[0]);
   update(root, true);
-});*/
+});
