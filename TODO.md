@@ -33,10 +33,19 @@
 + bugFix ==> paths are not configuring correctly!
 
 [+]Sprint 6:
-- _REMOVE ANGULAR_
++ _REMOVE ANGULAR_
 + display the data of all nodes in the visible tree in a seperate pane
 + display names on nodes
 
-[ ]Sprint 7:
-- beautify
+[+]Sprint 7:
++ beautify
+
+[ ]Sprint 8:
+- plug into readability API and get content from that
+- post content to firebase
+
+[ ]Sprint 9:
+- plug into natural
+- get natural to produce topics for content from readability
+- sent to database
 
