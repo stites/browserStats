@@ -39,10 +39,13 @@ angular.module('d3', [])
           return (new Date(d.lastVisitTime)).getHours();
         })
         .key(function(d) {
-          var domainAndSpecifics = d.url.split('://')[1];
-          var domain = domainAndSpecifics.split(/(?:.com)|(?:.org)|(?:.net)/)[0];
-          return domain;
+          return d.topic;
         })
+        // .key(function(d) {
+        //   var domainAndSpecifics = d.url.split('://')[1];
+        //   var domain = domainAndSpecifics.split(/(?:.com)|(?:.org)|(?:.net)/)[0];
+        //   return domain;
+        // })
         .entries(array);
       return nest;
     }
