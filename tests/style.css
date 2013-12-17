@@ -17,7 +17,7 @@ div.stats {
 div.stats .header {
   position:relative;
   left:10px;
-  top: 10px;
+  line-height: 50px;
   color: white;
   font-size: 35px;
 }
@@ -27,7 +27,6 @@ div.stats span {
   z-index:99;
   width:300px;
   height:980px;
-  fon
 }
 
 svg {

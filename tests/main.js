@@ -62,9 +62,9 @@ var toggle = function (d) {
 var tree = createTreeLayout(height, width);
 var diagonal = createDiagonal();
 var svgCanvas = createSvg(height, width, margins);
+var duration = 500;
 
 var update = function (source) {
-  var duration = 500;
 
   var nodes = tree.nodes(root);
   nodes.forEach(function(d) {
@@ -166,10 +166,13 @@ var update = function (source) {
 };
 
 var toggleDetails = function (datum) {
-  // Enter any new nodes at the parent's previous position.
-  datum.enter().append("svg:circle")
-      .attr("r", 1e-6)
-      .style("fill", function(d) { return d._values ? "lightsteelblue" : "#fff"; });
+  // if (datum.values) {
+    d3.select(".stats")
+        .append('div')
+        .text(datum.title)
+        .style('margin', '10px')
+        .style('color', 'white')
+// }
 }
 
 
@@ -196,4 +199,3 @@ fred.on("value", function(fb) {
   root.values.forEach(toggleAll);
   update(root);
 });
-
