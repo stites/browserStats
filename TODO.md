@@ -1,35 +1,37 @@
 # Iterate!
 
-TechStack v1:
+[x]TechStack v1:
 + Angular
 + chrome extension API
 + D3
 + Firebase
 
-TechStack additions for v2:
-+ Readability API
-+ Express/node
-+ redis
-+ NodeNatural
-
-Sprint 1:
+[x]Sprint 1:
 + populate firebase with desired data
 + display data in a page
 
-Sprint 2:
+[x]Sprint 2:
 + [big] have chrome extension monitor user's browsing history
 + send history to firebase
 + make sure that Sprint 1 works
 
-Sprint 3:
-- [big] get D3 to visualize this data as a tree
+[x]Sprint 3:
++ [big] get D3 to visualize this data as a tree
 
-Sprint 3:
-- hook into Readability's API
-- get an express server
-- have API send more information about urls to new server
-- make this user accessible to the client-side
+[ ]Sprint 4:
+**PIVOT: TREE IS NOW ORGANIZED BY A 24-HOUR SESSION**
+- nest nodes by day, hour, domain
+- give websites temperary topics when they populate the database generation.
 
-Sprint 4:
-- make express server run natural on data
-- send topic back to client side
+[ ]Sprint 5:
+- zoom into a subtree
+- reset back to the original tree
+
+[ ]Sprint 6:
+- display the data of all nodes in the visible tree in a seperate pane
+- _POTENTIALLY REMOVE ANGULAR_
+- display names on nodes
+
+[ ]Sprint 7:
+- beautify
+
