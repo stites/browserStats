@@ -46,8 +46,14 @@ var generateNesting= function (array) {
 };
 
 
-function collapseAllFromRoot(root) {
-  collapseAll(root);
+function collapseAllFromRootExcept(root, d) {
+  while(d.depth > 0){
+    for (var i = 0; i < d.parent.children.length; i++) {
+      if (d.parent.children[i] === d) break;
+      collapse(d.parent.children[i]);
+    }
+    d = d.parent;
+  }
 }
 
 function collapseAll(d) {
@@ -81,7 +87,6 @@ function toggle(d) {
   }
 }
 
-(function(){
 
 var tree = createTreeLayout(height, width);
 var diagonal = createDiagonal();
@@ -92,11 +97,11 @@ root.x0 = height / 2;
 root.y0 = 0;
 
 // Initialize the display to show a few nodes.
-root.children.forEach(toggleAll);
-toggle(root.children[1]);
-toggle(root.children[1].children[2]);
-toggle(root.children[9]);
-toggle(root.children[9].children[0]);
+// root.children.forEach(toggleAll);
+// toggle(root.children[1]);
+// toggle(root.children[1].children[2]);
+// toggle(root.children[9]);
+// toggle(root.children[9].children[0]);
 
 update(root);
 
@@ -115,7 +120,8 @@ function update(source) {
       .attr("class", "node")
       .attr("transform", function(d) { return "translate(" + source.y0 + "," + source.x0 + ")"; })
       .on("click", function(d) {
-        collapseAllFromRoot(root);
+        // collapseAllFromRootExcept(root, d);
+        toggle(d);
         update(d);
       });
 
@@ -189,5 +195,3 @@ function update(source) {
     d.y0 = d.y;
   });
 };
-
-})()
