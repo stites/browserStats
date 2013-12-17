@@ -1,26 +1,25 @@
-
 var margins = [20, 120, 20, 120],
-    width = 1280 - margins[1] - margins[3],
-    height = 800 - margins[0] - margins[2],
-    i = 0,
-    root;
+  width = 1280 - margins[1] - margins[3],
+  height = 800 - margins[0] - margins[2],
+  i = 0,
+  root;
 
 var createSvg = function (height, width, margins) {
   var svg = d3.select(".body").append("svg:svg")
       .attr("height", height + margins[0] + margins[2])
       .attr("width", width + margins[1] + margins[3])
-      // Namespacing - wut?
       .append("svg:g")
       .attr("transform", "translate(" + margins[3] + "," + margins[0] + ")");
   return svg;
 };
 
-var createTreeLayout = function (height, width) {
+var createTreeLayout = function (height, width, child) {
+  child = child || 'children';
   return d3.layout.tree()
     .size([height, width - 160])
     .children(function(d){
       // TODO: CHANGE THIS TO d.values WHEN USING NESTING
-      return (!d.children || d.children.length === 0) ? null : d.children;
+      return (!d[child] || d[child].length === 0) ? null : d[child];
     });
 };
 
@@ -48,42 +47,42 @@ var generateNesting= function (array) {
 
 function collapseAllFromRootExcept(root, d) {
   while(d.depth > 0){
-    for (var i = 0; i < d.parent.children.length; i++) {
-      if (d.parent.children[i] === d) break;
-      collapse(d.parent.children[i]);
+    for (var i = 0; i < d.parent.values.length; i++) {
+      if (d.parent.values[i] === d) break;
+      collapse(d.parent.values[i]);
     }
     d = d.parent;
   }
 }
 
 function collapseAll(d) {
-  if (d.children) {
-    d.children.forEach(collapseAll);
+  if (d.values) {
+    d.values.forEach(collapseAll);
     collapse(d);
   }
 }
 
 function collapse (d) {
-  if (d.children) {
-    d._children = d.children;
-    d.children = null;
+  if (d.values) {
+    d._values = d.values;
+    d.values = null;
   }
 }
 
 function toggleAll(d) {
-  if (d.children) {
-    d.children.forEach(toggleAll);
+  if (d.values) {
+    d.values.forEach(toggleAll);
     toggle(d);
   }
 }
 
 function toggle(d) {
-  if (d.children) {
-    d._children = d.children;
-    d.children = null;
+  if (d.values) {
+    d._values = d.values;
+    d.values = null;
   } else {
-    d.children = d._children;
-    d._children = null;
+    d.values = d._values;
+    d._values = null;
   }
 }
 
@@ -103,24 +102,40 @@ root.y0 = 0;
 // toggle(root.children[9]);
 // toggle(root.children[9].children[0]);
 
-update(root);
+// update(root);
 
-function update(source) {
+function update(source, ab) {
   var duration = 500;
-  var nodes = tree.nodes(root);
 
-  nodes.forEach(function(d) { d.y = d.depth * 200; });
+  if (ab){
+    tree = createTreeLayout(height, width, 'values');
+    var nodes = tree.nodes(root);
+    nodes.forEach(function(d) {
+      d.name = d.key || d.title;
+      d.y = d.depth * 200;
+      d.id = 0;
+    });
+    console.log(nodes);
+    var links = tree.links(nodes);
+  } else {
+    var nodes = tree.nodes(root);
+    nodes.forEach(function(d) {
+      d.y = d.depth * 200;
+    });
+    var links = tree.links(nodes);
+  }
 
   // Update the nodes…
   var node = svgCanvas.selectAll("g.node")
-      .data(nodes, function(d) { return d.id || (d.id = ++i); });
+      .data(nodes, function(d) {
+        return d.id || (d.id = ++i);
+      });
 
   // Enter any new nodes at the parent's previous position.
   var nodeEnter = node.enter().append("svg:g")
       .attr("class", "node")
       .attr("transform", function(d) { return "translate(" + source.y0 + "," + source.x0 + ")"; })
       .on("click", function(d) {
-        // collapseAllFromRootExcept(root, d);
         toggle(d);
         update(d);
       });
@@ -162,7 +177,10 @@ function update(source) {
 
   // Update the links…
   var link = svgCanvas.selectAll("path.link")
-      .data(tree.links(nodes), function(d) { return d.target.id; });
+      .data(links, function(d) {
+        // console.log(d);
+        return d.target.id;
+      });
 
   // Enter any new links at the parent's previous position.
   link.enter().insert("svg:path", "g")
@@ -195,3 +213,29 @@ function update(source) {
     d.y0 = d.y;
   });
 };
+
+
+
+
+var fred = new Firebase('https://stites.firebaseio.com/Users/Fred');
+fred.auth('Eo85u1MXfxVA4udvqIdjnyTYkL51Zz0AFABP962M', function(error, result) {
+  if(error) {
+    console.log("Login Failed!", error);
+  } else {
+    console.log('Authenticated successfully with payload:', result.auth);
+    console.log('Auth expires at:', new Date(result.expires * 1000));
+  }
+});
+
+fred.on("value", function(fb) {
+  var nodeArray = [];
+  for(var data in fb.val()){
+    var datum = fb.val()[data];
+    nodeArray.push(datum);
+  }
+
+  root = generateNesting(nodeArray)[0];
+  root.x0 = height / 2;
+  root.y0 = 0;
+  update(root, true);
+});

@@ -18,19 +18,23 @@
 [x]Sprint 3:
 + [big] get D3 to visualize this data as a tree
 
-[+]Sprint 4:
+[x]Sprint 4:
 **PIVOT: TREE IS NOW ORGANIZED BY A 24-HOUR SESSION**
 + nest nodes by day, hour, domain
 + give websites temperary topics when they populate the database generation.
 + nest nodes by day, hour, topic
 
-[ ]Sprint 5:
-- zoom into a subtree
-- reset back to the original tree
+[x]Sprint 5:
++ zoom into a subtree
++ reset back to the original tree
++ make sure live data works with tree
+
+[ ]Sprint 5.7:
+- bugFix ==> paths are not configuring correctly!
 
 [ ]Sprint 6:
+- _REMOVE ANGULAR_
 - display the data of all nodes in the visible tree in a seperate pane
-- _POTENTIALLY REMOVE ANGULAR_
 - display names on nodes
 
 [ ]Sprint 7:
