@@ -5,11 +5,11 @@ var margins = [20, 120, 20, 120],
   root;
 
 var createSvg = function (height, width, margins) {
-  var svg = d3.select(".body").append("svg:svg")
+  var svg = d3.select("body").append("svg:svg")
       .attr("height", height + margins[0] + margins[2])
       .attr("width", width + margins[1] + margins[3])
       .append("svg:g")
-      .attr("transform", "translate(" + margins[3] + "," + margins[0] + ")");
+      .attr("transform", "translate(" + (margins[3]+300) + "," + margins[0] + ")");
   return svg;
 };
 
@@ -85,6 +85,7 @@ var update = function (source) {
       .attr("class", "node")
       .attr("transform", function(d) { return "translate(" + source.y0 + "," + source.x0 + ")"; })
       .on("click", function(d) {
+        toggleDetails(d);
         toggle(d);
         update(d);
       });
@@ -164,6 +165,14 @@ var update = function (source) {
   });
 };
 
+var toggleDetails = function (datum) {
+  // Enter any new nodes at the parent's previous position.
+  datum.enter().append("svg:circle")
+      .attr("r", 1e-6)
+      .style("fill", function(d) { return d._values ? "lightsteelblue" : "#fff"; });
+}
+
+
 var fred = new Firebase('https://stites.firebaseio.com/Users/Fred');
 fred.auth('Eo85u1MXfxVA4udvqIdjnyTYkL51Zz0AFABP962M', function(error, result) {
   if(error) {
@@ -187,3 +196,4 @@ fred.on("value", function(fb) {
   root.values.forEach(toggleAll);
   update(root);
 });
+
