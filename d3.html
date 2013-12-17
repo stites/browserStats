@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+#container_2 {
+    -webkit-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    transform: rotate(90deg);
+}
+.node circle {
+  fill: #fff;
+  stroke: steelblue;
+  stroke-width: 1.5px;
+}
+
+.node {
+  font: 10px sans-serif;
+}
+
+.link {
+  fill: none;
+  stroke: #ccc;
+  stroke-width: 1.5px;
+}
+
+</style>
+<body>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script>
+var flare = {
+ "name": "flare",
+ "values": [
+  {
+   "name": "analytics",
+   "values": [
+        {"1387234241502" : {
+          "lastVisitTime" : 1.3872342415021711E12,
+          "visitCount" : 3,
+          "url" : "http://developer.chrome.com/extensions/api_index.html",
+          "typedCount" : 0,
+          "title" : "Chrome Platform APIs - Google Chrome",
+          "id" : "1820"
+        }}
+    ]
+    },
+    {
+     "key": "graph",
+     "values": [
+        {"1387234241502" : {
+          "lastVisitTime" : 1.3872342415021711E12,
+          "visitCount" : 3,
+          "url" : "http://developer.chrome.com/extensions/api_index.html",
+          "typedCount" : 0,
+          "title" : "Chrome Platform APIs - Google Chrome",
+          "id" : "1820"
+        }},
+        {"1387234241502" : {
+          "lastVisitTime" : 1.3872342415021711E12,
+          "visitCount" : 3,
+          "url" : "http://developer.chrome.com/extensions/api_index.html",
+          "typedCount" : 0,
+          "title" : "Chrome Platform APIs - Google Chrome",
+          "id" : "1820"
+        }}
+     ]
+    }
+   ]
+  };
+
+var dataArray = [];
+var dataObj = {
+  "1387232915448" : {
+    "lastVisitTime" : 1.387232915447795E12,
+    "visitCount" : 1,
+    "url" : "https://groups.google.com/forum/#!topic/firebase-talk/cKhItW67ceI",
+    "typedCount" : 0,
+    "title" : "Google Groups",
+    "id" : "2587"
+  },
+  "1387232510894" : {
+    "lastVisitTime" : 1.387232510894433E12,
+    "visitCount" : 1,
+    "url" : "http://stackoverflow.com/questions/16615770/how-do-i-stop-angularfire-limiting-number-of-key-values-in-an-object-to-100",
+    "typedCount" : 0,
+    "title" : "angularjs - How do I stop angularFire limiting number of key/values in an object to 100? - Stack Overflow",
+    "id" : "2577"
+  },
+  };
+for(var data in dataObj){
+  dataArray.push(dataObj[data]);
+}
+
+var nest = d3.nest()
+    .key(function(d) { return 'root'; })
+    .key(function(d) { return d.visitCount; })
+    .entries(dataArray);
+
+console.log(nest[0]);
+console.log(flare);
+
+// flare = nest[0];
+var width = 960,
+    height = 2200;
+
+var tree = d3.layout.tree()
+    .size([height, width - 160])
+    .children(function(d){
+        return (!d.values || d.values.length === 0) ? null : d.values;
+    })
+    // .value(function(d){
+    //   console.log(d.key);
+    //   return d.key;
+    // });
+
+nest.value(function(d){
+  console.log(d)
+  return d;
+});
+
+var diagonal = d3.svg.diagonal()
+    .projection(function(d) { return [d.y, d.x]; });
+
+var svg = d3.select("body").append("svg")
+    .attr("width", width)
+    .attr("height", height)
+  .append("g")
+    .attr("transform", "translate(40,0)");
+var nodes = tree.nodes(flare);////////////////////===========================
+var links = tree.links(nodes);
+
+var link = svg.selectAll(".link")
+    .data(links)
+  .enter().append("path")
+    .attr("class", "link")
+    .attr("d", diagonal);
+
+var node = svg.selectAll(".node")
+    .data(nodes)
+  .enter().append("g")
+    .attr("class", "node")
+    .attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; })
+
+node.append("circle")
+    .attr("r", 4.5);
+
+node.append("text")
+    .attr("dx", function(d) { return d.children ? -8 : 8; })
+    .attr("dy", 3)
+    .style("text-anchor", function(d) { return d.children ? "end" : "start"; })
+    .text(function(d) { return d.name; });
+
+d3.select(self.frameElement).style("height", height + "px");
+
+</script>
+</body>
