@@ -1,6 +1,6 @@
 var margins = [20, 120, 20, 120],
-  width = 1280 - margins[1] - margins[3],
-  height = 800 - margins[0] - margins[2],
+  width = window.innerWidth - margins[1] - margins[3],
+  height = window.innerHeight - margins[0] - margins[2],
   i = 0,
   root;
 
@@ -60,29 +60,16 @@ function toggle(d) {
   }
 }
 
-
 var tree = createTreeLayout(height, width);
 var diagonal = d3.svg.diagonal().projection(function(d) { return [d.y, d.x]; });
 var svgCanvas = createSvg(height, width, margins);
-
-// root = json;
-// root.x0 = height / 2;
-// root.y0 = 0;
-
-// Initialize the display to show a few nodes.
-// root.values.forEach(toggleAll);
-// toggle(root.values[1]);
-// toggle(root.values[1].values[2]);
-// toggle(root.values[9]);
-// toggle(root.values[9].values[0]);
-
-// update(root);
 
 function update(source, ab) {
   var duration = 500;
 
   var nodes = tree.nodes(root);
   nodes.forEach(function(d) {
+    d.children = d.values;
     d.key = d.key || d.title;
     d.y = d.depth * 200;
     d.id = 0;
@@ -140,7 +127,6 @@ function update(source, ab) {
 
 
   var links = tree.links(nodes);
-  // console.log(links)
   var link = svgCanvas.selectAll("path.link")
       .data(links, function(d) {
         return d.target.id;
@@ -201,8 +187,6 @@ fred.on("value", function(fb) {
   root = generateNesting(nodeArray)[0];
   root.x0 = height / 2;
   root.y0 = 0;
-  // root.values.forEach(toggleAll);
-  // toggle(root.values[0]);
-  // toggle(root.values[0].values[0]);
+  root.values.forEach(toggleAll);
   update(root, true);
 });

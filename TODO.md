@@ -29,8 +29,8 @@
 + reset back to the original tree
 + make sure live data works with tree
 
-[ ]Sprint 5.7:
-- bugFix ==> paths are not configuring correctly!
+[+]Sprint 5.7:
++ bugFix ==> paths are not configuring correctly!
 
 [ ]Sprint 6:
 - _REMOVE ANGULAR_
