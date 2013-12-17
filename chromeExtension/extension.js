@@ -8,9 +8,9 @@ var sendHistoryToDataBase = function () {
     'startTime': oneDayAgo
   },
   function(historyItems) {
-    for (var i = 0; i < historyItems.length; ++i) {
-      addToFirebase(historyItems[i], historyItems[i].lastVisitTime);
-    }
+    addToFirebase(historyItems[0], historyItems[0].lastVisitTime);
+    // for (var i = 0; i < historyItems.length; ++i) {
+    // }
   });
 };
 var sendNavigationToDatabase = function (details) {
@@ -18,24 +18,44 @@ var sendNavigationToDatabase = function (details) {
 }
 
 var addToFirebase = function (item, id) {
-  var fred = new Firebase('https://stites.firebaseio.com/Users/Fred');
+  // var xhr = new XMLHttpRequest();
+  // xhr.onreadystatechange = handleStateChange; // Implemented elsewhere.
+  // xhr.open("POST", '127.0.0.1:3000', true);
+  // xhr.send();
 
-  fred.auth('Eo85u1MXfxVA4udvqIdjnyTYkL51Zz0AFABP962M', function(error, result) {
-    if(error) {
-      console.log("Login Failed!", error);
-    } else {
-      console.log('Authenticated successfully with payload:', result.auth);
-      console.log('Auth expires at:', new Date(result.expires * 1000));
+  $.ajax({
+    url: 'http://127.0.0.1:3000',
+    type: 'POST',
+    // beforeSend: function(xhr){xhr.setRequestHeader('X-Test-Header', 'test-value');},
+    data: {
+        url: 'http://www.google.com'
+    },
+    success: function(response) {
+        // response now contains full HTML of google.com
+      console.log('success',response);
+    },
+    error: function (reason) {
+      console.log('error',reason);
     }
   });
+  // var fred = new Firebase('https://stites.firebaseio.com/Users/Fred');
 
-  // CHANGE TO TOPIC ANALYSIS IN LATER VERSION - lols
-  (function addTopic (obj) {
-    var choices = ['kittens', 'hackathons', 'bear hunting', 'the biggest shirt in the world'];
-    obj.topic = choices[Math.floor(Math.random() * choices.length)];
-  })(item);
+  // fred.auth('Eo85u1MXfxVA4udvqIdjnyTYkL51Zz0AFABP962M', function(error, result) {
+  //   if(error) {
+  //     console.log("Login Failed!", error);
+  //   } else {
+  //     console.log('Authenticated successfully with payload:', result.auth);
+  //     console.log('Auth expires at:', new Date(result.expires * 1000));
+  //   }
+  // });
 
-  fred.child(Math.round(id)).set(item);
+  // // CHANGE TO TOPIC ANALYSIS IN LATER VERSION - lols
+  // (function addTopic (obj) {
+  //   var choices = ['kittens', 'hackathons', 'bear hunting', 'the biggest shirt in the world'];
+  //   obj.topic = choices[Math.floor(Math.random() * choices.length)];
+  // })(item);
+
+  // fred.child(Math.round(id)).set(item);
 };
 
 document.addEventListener('DOMContentLoaded', function () {

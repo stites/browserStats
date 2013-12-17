@@ -6,7 +6,8 @@
   "permissions": [
     "history",
     "webNavigation",
-    "tabs"
+    "tabs",
+    "127.0.0.1:3000"
   ],
   "browser_action": {
     "default_popup": "extension.html",
