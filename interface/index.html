@@ -39,11 +39,10 @@
       <ul>
         <li ng-repeat="histItem in histItems | orderBy:title">
           <div class="info">
-            <div class="title">title: {{ histItem.title | limitTo:50 }} </div>
-            <div class="url">url: {{ histItem.url | limitTo:50 }} </div>
+            <div class="url"><a ng-href="{{ histItem.url }}">{{ histItem.title | limitTo:50 }} </a></div>
             <div class="typedCount">typedCount: {{ histItem.typedCount }} </div>
             <div class="visitCount">visitCount: {{ histItem.visitCount }} </div>
-            <!-- <a ng-href="{{ histItem.url }}">{{ histItem.url }}</a> -->
+            <div class="topic">topic: {{ histItem.topic }} </div>
           </div>
         </li>
       </ul>
