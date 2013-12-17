@@ -42,15 +42,14 @@ var generateNesting= function (array) {
     .entries(array);
 };
 
-
-function toggleAll(d) {
+var toggleAll = function (d) {
   if (d.values) {
     d.values.forEach(toggleAll);
     toggle(d);
   }
-}
+};
 
-function toggle(d) {
+var toggle = function (d) {
   if (d.values) {
     d._values = d.values;
     d.values = null;
@@ -61,10 +60,10 @@ function toggle(d) {
 }
 
 var tree = createTreeLayout(height, width);
-var diagonal = d3.svg.diagonal().projection(function(d) { return [d.y, d.x]; });
+var diagonal = createDiagonal();
 var svgCanvas = createSvg(height, width, margins);
 
-function update(source, ab) {
+var update = function (source) {
   var duration = 500;
 
   var nodes = tree.nodes(root);
@@ -148,7 +147,7 @@ function update(source, ab) {
       .duration(duration)
       .attr("d", diagonal);
 
-  // // Transition exiting nodes to the parent's new position.
+  // Transition exiting nodes to the parent's new position.
   link.exit()
       .transition()
       .duration(duration)
@@ -164,8 +163,6 @@ function update(source, ab) {
     d.y0 = d.y;
   });
 };
-
-
 
 var fred = new Firebase('https://stites.firebaseio.com/Users/Fred');
 fred.auth('Eo85u1MXfxVA4udvqIdjnyTYkL51Zz0AFABP962M', function(error, result) {
@@ -188,5 +185,5 @@ fred.on("value", function(fb) {
   root.x0 = height / 2;
   root.y0 = 0;
   root.values.forEach(toggleAll);
-  update(root, true);
+  update(root);
 });
