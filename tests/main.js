@@ -13,13 +13,11 @@ var createSvg = function (height, width, margins) {
   return svg;
 };
 
-var createTreeLayout = function (height, width, child) {
-  child = child || 'children';
+var createTreeLayout = function (height, width) {
   return d3.layout.tree()
     .size([height, width - 160])
     .children(function(d){
-      // TODO: CHANGE THIS TO d.values WHEN USING NESTING
-      return (!d[child] || d[child].length === 0) ? null : d[child];
+      return (!d.values || d.values.length === 0) ? null : d.values;
     });
 };
 
@@ -44,30 +42,6 @@ var generateNesting= function (array) {
     .entries(array);
 };
 
-
-function collapseAllFromRootExcept(root, d) {
-  while(d.depth > 0){
-    for (var i = 0; i < d.parent.values.length; i++) {
-      if (d.parent.values[i] === d) break;
-      collapse(d.parent.values[i]);
-    }
-    d = d.parent;
-  }
-}
-
-function collapseAll(d) {
-  if (d.values) {
-    d.values.forEach(collapseAll);
-    collapse(d);
-  }
-}
-
-function collapse (d) {
-  if (d.values) {
-    d._values = d.values;
-    d.values = null;
-  }
-}
 
 function toggleAll(d) {
   if (d.values) {
@@ -96,11 +70,11 @@ root.x0 = height / 2;
 root.y0 = 0;
 
 // Initialize the display to show a few nodes.
-root.children.forEach(toggleAll);
-toggle(root.children[1]);
-toggle(root.children[1].children[2]);
-toggle(root.children[9]);
-toggle(root.children[9].children[0]);
+// root.values.forEach(toggleAll);
+// toggle(root.values[1]);
+// toggle(root.values[1].values[2]);
+// toggle(root.values[9]);
+// toggle(root.values[9].values[0]);
 
 update(root);
 
@@ -108,7 +82,7 @@ function update(source, ab) {
   var duration = 500;
 
   if (ab){
-    tree = createTreeLayout(height, width, 'values');
+    tree = createTreeLayout(height, width);
     var nodes = tree.nodes(root);
     nodes.forEach(function(d) {
       d.name = d.key || d.title;
@@ -121,7 +95,6 @@ function update(source, ab) {
     var nodes = tree.nodes(root);
     nodes.forEach(function(d) {
       d.y = d.depth * 200;
-      d.values = d.children;
     });
   }
 
@@ -148,7 +121,7 @@ function update(source, ab) {
       .attr("x", function(d) { return d.values || d._values ? -10 : 10; })
       .attr("dy", ".35em")
       .attr("text-anchor", function(d) { return d.values || d._values ? "end" : "start"; })
-      .text(function(d) { return d.name; })
+      .text(function(d) { return d.key; })
       .style("fill-opacity", 1e-6);
 
   // Transition nodes to their new position.
@@ -158,7 +131,7 @@ function update(source, ab) {
 
   nodeUpdate.select("circle")
       .attr("r", 4.5)
-      .style("fill", function(d) { return d._children ? "lightsteelblue" : "#fff"; });
+      .style("fill", function(d) { return d._values ? "lightsteelblue" : "#fff"; });
 
   nodeUpdate.select("text")
       .style("fill-opacity", 1);
