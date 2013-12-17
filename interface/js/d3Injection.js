@@ -15,13 +15,35 @@ angular.module('d3', [])
     createCluster: function (width, height) {
       var width = width;
       var height = height;
-      var cluster = d3.layout.cluster().size([height, width - 160]);
-      return cluster;
+      var tree = d3.layout.tree()
+          .size([height, width - 160])
+          .children(function(d){
+              return (!d.values || d.values.length === 0) ? null : d.values;
+          });
+      return tree;
     },
     createDiagonal: function () {
       var diagonal = d3.svg.diagonal()
           .projection(function(d) { return [d.y, d.x]; });
       return diagonal;
+    },
+    generateNesting: function (array) {
+      var nest = d3.nest()
+        .key(function(d) {
+          return 'root';
+        })
+        .key(function(d) {
+          var domainAndSpecifics = d.url.split('://')[1]
+          var domain = domainAndSpecifics.split(/(?:.com)|(?:.org)|(?:.net)/)[0];
+          return domain;
+        })
+        // .key(function(d) {
+        //   var specifics = d.url;//.split(/(?:.com)|(?:.org)|(?:.net)/)[1];
+        //   // var firstPath = specifics.split('/')[0];
+        //   return specifics;
+        // })
+        .entries(array);
+      return nest;
     }
   };
 

@@ -5,26 +5,44 @@ angular.module('browserStats')
       scope: {},
       link: function (scope, element, attrs) {
         var fred = new Firebase('https://stites.firebaseio.com/Users/Fred');
-        var treeData = new Tree();
-
         $firebase(fred).$on("loaded", function(dataObj) {
+          var dataArray = [];
+
           for(var data in dataObj){
-            treeData.addChild(dataObj[data]);
+            dataArray.push(dataObj[data]);
           }
+
+          var height = 600, width = 700;
+          var svg = D3Service.createSvg(width, height, element[0]),
+            tree = D3Service.createCluster(width, height),
+            diagonal = D3Service.createDiagonal(),
+            root = D3Service.generateNesting(dataArray)[0];
+
+          var nodes = tree.nodes(root);
+          var links = tree.links(nodes);
+
+          var link = svg.selectAll(".link")
+              .data(links)
+            .enter().append("path")
+              .attr("class", "link")
+              .attr("d", diagonal);
+
+          var node = svg.selectAll(".node")
+              .data(nodes)
+            .enter().append("g")
+              .attr("class", "node")
+              .attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; })
+
+          node.append("circle")
+              .attr("r", 4.5);
+
+          node.append("text")
+              .attr("dx", function(d) { return d.children ? -8 : 8; })
+              .attr("dy", 3)
+              .style("text-anchor", function(d) { return d.children ? "end" : "start"; })
+              .text(function(d) { return d.name; });
+
         });
-
-        var height = 600;
-        var width = 700;
-        var svg = D3Service.createSvg(width, height, element[0]);
-        var cluster = D3Service.createCluster(width, height);
-        var diagonal = D3Service.createDiagonal();
-
-        var dataSet = svg.selectAll('span').data([{val:0}]);
-
-        var domElements = dataSet.enter().append('circle')
-                        .attr({r:10, cx:width/2, cy:height/2})
-                        .style('fill', 'orange');
-
       }
     }
   });

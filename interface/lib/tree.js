@@ -1,23 +1,16 @@
-var Tree = function(value, parent){
-  this.value = value || undefined;
+var Tree = function(value, parent, depth){
+  this.value = value || null;
   this.parent = parent || null;
-  this.children = undefined;
+  this.children = null;
+  this.depth = depth || 0;
 };
 
-Tree.prototype.addChild = function(value, direction, binary){
-  var child = new Tree(value, this);
+Tree.prototype.addChild = function(value){
+  var child = new Tree(value, this, this.depth+1);
 
   (!this.children) && (this.children = []);
 
-  if (binary && (this.children.length < 2)){
-    if (direction === "left") {
-      this.children.unshift(child);
-    } else {
-      this.children.push(child);
-    }
-  } else if (!binary) {
-    this.children.push(child);
-  }
+  this.children.push(child);
 };
 
 Tree.prototype.removeFromParent = function (node) {
