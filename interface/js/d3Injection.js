@@ -30,18 +30,19 @@ angular.module('d3', [])
     generateNesting: function (array) {
       var nest = d3.nest()
         .key(function(d) {
-          return 'root';
+          return '24-hourSession';
         })
         .key(function(d) {
-          var domainAndSpecifics = d.url.split('://')[1]
+          return (new Date(d.lastVisitTime)).getDay();
+        })
+        .key(function(d) {
+          return (new Date(d.lastVisitTime)).getHours();
+        })
+        .key(function(d) {
+          var domainAndSpecifics = d.url.split('://')[1];
           var domain = domainAndSpecifics.split(/(?:.com)|(?:.org)|(?:.net)/)[0];
           return domain;
         })
-        // .key(function(d) {
-        //   var specifics = d.url;//.split(/(?:.com)|(?:.org)|(?:.net)/)[1];
-        //   // var firstPath = specifics.split('/')[0];
-        //   return specifics;
-        // })
         .entries(array);
       return nest;
     }

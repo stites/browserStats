@@ -20,8 +20,9 @@
 
 [ ]Sprint 4:
 **PIVOT: TREE IS NOW ORGANIZED BY A 24-HOUR SESSION**
-- nest nodes by day, hour, domain
++ nest nodes by day, hour, domain
 - give websites temperary topics when they populate the database generation.
+- nest nodes by day, hour, topic
 
 [ ]Sprint 5:
 - zoom into a subtree
