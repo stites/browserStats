@@ -33,13 +33,13 @@ var generateNesting= function (array) {
       return '24-hourSession';
     })
     .key(function(d) {
+      return d.topic;
+    })
+    .key(function(d) {
       return (new Date(d.lastVisitTime)).getDay();
     })
     .key(function(d) {
       return (new Date(d.lastVisitTime)).getHours();
-    })
-    .key(function(d) {
-      return d.topic;
     })
     .entries(array);
 };
@@ -237,5 +237,8 @@ fred.on("value", function(fb) {
   root = generateNesting(nodeArray)[0];
   root.x0 = height / 2;
   root.y0 = 0;
+  // root.values.forEach(toggleAll);
+  // toggle(root.values[0]);
+  // toggle(root.values[0].values[0]);
   update(root, true);
 });
