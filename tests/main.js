@@ -96,13 +96,13 @@ root.x0 = height / 2;
 root.y0 = 0;
 
 // Initialize the display to show a few nodes.
-// root.children.forEach(toggleAll);
-// toggle(root.children[1]);
-// toggle(root.children[1].children[2]);
-// toggle(root.children[9]);
-// toggle(root.children[9].children[0]);
+root.children.forEach(toggleAll);
+toggle(root.children[1]);
+toggle(root.children[1].children[2]);
+toggle(root.children[9]);
+toggle(root.children[9].children[0]);
 
-// update(root);
+update(root);
 
 function update(source, ab) {
   var duration = 500;
@@ -115,14 +115,14 @@ function update(source, ab) {
       d.y = d.depth * 200;
       d.id = 0;
     });
-    console.log(nodes);
-    var links = tree.links(nodes);
+    // console.log(nodes);
+    // var links = tree.links(nodes);
   } else {
     var nodes = tree.nodes(root);
     nodes.forEach(function(d) {
       d.y = d.depth * 200;
+      d.values = d.children;
     });
-    var links = tree.links(nodes);
   }
 
   // Update the nodes…
@@ -142,12 +142,12 @@ function update(source, ab) {
 
   nodeEnter.append("svg:circle")
       .attr("r", 1e-6)
-      .style("fill", function(d) { return d._children ? "lightsteelblue" : "#fff"; });
+      .style("fill", function(d) { return d._values ? "lightsteelblue" : "#fff"; });
 
   nodeEnter.append("svg:text")
-      .attr("x", function(d) { return d.children || d._children ? -10 : 10; })
+      .attr("x", function(d) { return d.values || d._values ? -10 : 10; })
       .attr("dy", ".35em")
-      .attr("text-anchor", function(d) { return d.children || d._children ? "end" : "start"; })
+      .attr("text-anchor", function(d) { return d.values || d._values ? "end" : "start"; })
       .text(function(d) { return d.name; })
       .style("fill-opacity", 1e-6);
 
@@ -175,6 +175,9 @@ function update(source, ab) {
   nodeExit.select("text")
       .style("fill-opacity", 1e-6);
 
+
+  var links = tree.links(nodes);
+  // console.log(links)
   // Update the links…
   var link = svgCanvas.selectAll("path.link")
       .data(links, function(d) {
@@ -216,7 +219,7 @@ function update(source, ab) {
 
 
 
-
+/*
 var fred = new Firebase('https://stites.firebaseio.com/Users/Fred');
 fred.auth('Eo85u1MXfxVA4udvqIdjnyTYkL51Zz0AFABP962M', function(error, result) {
   if(error) {
@@ -241,4 +244,4 @@ fred.on("value", function(fb) {
   // toggle(root.values[0]);
   // toggle(root.values[0].values[0]);
   update(root, true);
-});
+});*/
