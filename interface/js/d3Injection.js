@@ -11,6 +11,17 @@ angular.module('d3', [])
         .append('g')
         .attr("transform", "translate(40,0)");
       return svg;
+    },
+    createCluster: function (width, height) {
+      var width = width;
+      var height = height;
+      var cluster = d3.layout.cluster().size([height, width - 160]);
+      return cluster;
+    },
+    createDiagonal: function () {
+      var diagonal = d3.svg.diagonal()
+          .projection(function(d) { return [d.y, d.x]; });
+      return diagonal;
     }
   };
 
