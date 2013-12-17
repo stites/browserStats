@@ -7,6 +7,7 @@ var express = require('express')
   , routes = require('./routes')
   , user = require('./routes/user')
   , http = require('http')
+  , request = require('request')
   , path = require('path');
 
 var app = express();
@@ -34,7 +35,14 @@ app.get('/', function () {
   console.log('received get request')
 });
 app.post('/', function(req, res) {
-  console.log('post', req.body);
+  // var url = path.
+  request(req.body.url, function (error, response, body) {
+    if (!error && response.statusCode == 200) {
+      var bodySlice = body.split(/<script>[\w\W]+<\/script>/).join('');
+      var text = bodySlice.replace(/<[^>]*>/g, "");
+      console.log(text);
+    }
+  })
 });
 
 http.createServer(app).listen(app.get('port'), function(){
