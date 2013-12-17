@@ -6,19 +6,24 @@ angular.module('browserStats')
       link: function (scope, element, attrs) {
         var fred = new Firebase('https://stites.firebaseio.com/Users/Fred');
         $firebase(fred).$on("loaded", function(dataObj) {
-          var dataArray = [];
-
-          for(var data in dataObj){
-            dataArray.push(dataObj[data]);
-          }
-
           var height = 600, width = 700;
           var svg = D3Service.createSvg(width, height, element[0]),
             tree = D3Service.createCluster(width, height),
-            diagonal = D3Service.createDiagonal(),
-            root = D3Service.generateNesting(dataArray)[0];
+            diagonal = D3Service.createDiagonal();
+
+          var generateTreeStructure = function (obj) {
+            var array = [];
+            for(var data in obj){
+              array.push(obj[data]);
+            }
+            var root = D3Service.generateNesting(array)[0];
+            return root;
+          };
+
+          var root = generateTreeStructure(dataObj);
 
           var nodes = tree.nodes(root);
+          console.log(nodes);
           var links = tree.links(nodes);
 
           var link = svg.selectAll(".link")
