@@ -3,6 +3,14 @@
  * Module dependencies.
  */
 
+ var headers = {
+   "Access-Control-Allow-Origin": "*",
+   "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+   "Access-Control-Allow-Headers": "Content-Type, Accept, X-Parse-Application-Id, X-Parse-REST-API-Key",
+   "Access-Control-Max-Age": 10,
+   'Content-Type': "text/plain"
+ };
+
 var express = require('express')
   , routes = require('./routes')
   , user = require('./routes/user')
@@ -85,7 +93,8 @@ app.post('/', function(req, res) {
           importantFreq = freq[tokens[i]];
         }
       };
-      response.end(importantWord);
+      res.writeHead(200, headers);
+      res.end(importantWord);
     }
   })
 });
