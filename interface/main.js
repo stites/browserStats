@@ -28,16 +28,13 @@ var createDiagonal= function () {
 var generateNesting= function (array) {
   return d3.nest()
     .key(function(d) {
-      return '24-hourSession';
+      return 'Hackathon Session';
     })
     .key(function(d) {
       return d.topic;
     })
     .key(function(d) {
-      return (new Date(d.lastVisitTime)).getDay();
-    })
-    .key(function(d) {
-      return (new Date(d.lastVisitTime)).getHours();
+      return (new Date(d.lastVisitTime)).getHours()+':00';
     })
     .entries(array);
 };
@@ -125,7 +122,6 @@ var update = function (source) {
   nodeExit.select("text")
       .style("fill-opacity", 1e-6);
 
-
   var links = tree.links(nodes);
   var link = svgCanvas.selectAll("path.link")
       .data(links, function(d) {
@@ -172,7 +168,7 @@ var toggleDetails = function (datum) {
           d3.select(".stats")
               .append('div')
               .html('<div class="info">'+
-                      '<div class="url"><a ng-href="'+datum._values[i].url+'">'+datum._values[i].title+'</a></div>'+
+                      '<div class="url"><a href="'+datum._values[i].url+'">'+datum._values[i].title+'</a></div>'+
                       '<div class="typedCount">typedCount: '+datum._values[i].typedCount+' </div>'+
                       '<div class="visitCount">visitCount: '+datum._values[i].visitCount+'</div>'+
                       '<div class="topic">topic: '+datum._values[i].topic+'</div></div>')

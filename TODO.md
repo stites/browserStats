@@ -40,13 +40,13 @@
 [+]Sprint 7:
 + beautify
 
-[ ]Sprint 8:
+[+]Sprint 8:
 + get content via express
 + plug into natural
-- get natural to produce topics
++ get natural to produce topics
 
-[ ]Sprint 9:
-- post topics to app
-- post topics to firebase
-<!-- - sent to database -->
+[+]Sprint 9:
++ post topics to app
++ post topics to firebase
+
 

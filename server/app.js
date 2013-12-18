@@ -84,6 +84,7 @@ app.post('/', function(req, res) {
       var freq = {}, importantWord = '', importantFreq = 0;
 
       for (var i = 0; i < tokens.length; i++) {
+        if (/[\d]+/.test(tokens[i]) || tokens[i]==='undefined' || tokens[i]==='nbsp' || tokens[i].length > 40) break;
         freq[tokens[i]] = freq[tokens[i]] || 0;
         freq[tokens[i]]++;
       };

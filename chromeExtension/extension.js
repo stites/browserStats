@@ -1,6 +1,6 @@
 var sendHistoryToDataBase = function () {
 
-  var microsecondsPerDay = 1000 * 60 * 60 * 24 * 1;
+  var microsecondsPerDay = 1000 * 60 * 60 * 24 * 2;
   var oneDayAgo = (new Date).getTime() - microsecondsPerDay;
 
   chrome.history.search({
@@ -23,14 +23,13 @@ var addToFirebase = function (item, id) {
     url: 'http://127.0.0.1:3000',
     type: 'POST',
     data: {
-        // url: 'https://encrypted.google.com/search?hl=en&source=hp&q=testing&btnG=Google+Search&aq=f&aqi=g10&aql=&oq=&gs_rfai='
         url: item.url
     },
     success: function(topic) {
       var fred = new Firebase('https://stites.firebaseio.com/Users/Fred');
 
       fred.auth('Eo85u1MXfxVA4udvqIdjnyTYkL51Zz0AFABP962M');
-      item.topic = topic;
+      item.topic = topic || 'uncategorized';
       fred.child(Math.round(id)).set(item);
     },
     error: function (reason) {
