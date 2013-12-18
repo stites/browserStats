@@ -8,9 +8,10 @@ var sendHistoryToDataBase = function () {
     'startTime': oneDayAgo
   },
   function(historyItems) {
-    addToFirebase(historyItems[0], historyItems[0].lastVisitTime);
-    // for (var i = 0; i < historyItems.length; ++i) {
-    // }
+    for (var i = 0; i < historyItems.length; ++i) {
+    // for (var i = 0; i < 10; ++i) {
+      addToFirebase(historyItems[i], historyItems[i].lastVisitTime);
+    }
   });
 };
 var sendNavigationToDatabase = function (details) {
@@ -18,45 +19,24 @@ var sendNavigationToDatabase = function (details) {
 }
 
 var addToFirebase = function (item, id) {
-  // var xhr = new XMLHttpRequest();
-  // xhr.onreadystatechange = handleStateChange; // Implemented elsewhere.
-  // xhr.open("POST", '127.0.0.1:3000', true);
-  // xhr.send();
-
   $.ajax({
     url: 'http://127.0.0.1:3000',
     type: 'POST',
-    // beforeSend: function(xhr){xhr.setRequestHeader('X-Test-Header', 'test-value');},
     data: {
-        url: 'http://www.hackreactor.com'
+        // url: 'https://encrypted.google.com/search?hl=en&source=hp&q=testing&btnG=Google+Search&aq=f&aqi=g10&aql=&oq=&gs_rfai='
+        url: item.url
     },
-    success: function(response) {
-        // response now contains full HTML of google.com
-      console.log('success',response);
+    success: function(topic) {
+      var fred = new Firebase('https://stites.firebaseio.com/Users/Fred');
+
+      fred.auth('Eo85u1MXfxVA4udvqIdjnyTYkL51Zz0AFABP962M');
+      item.topic = topic;
+      fred.child(Math.round(id)).set(item);
     },
     error: function (reason) {
       console.log('error',reason);
     }
   });
-
-  // var fred = new Firebase('https://stites.firebaseio.com/Users/Fred');
-
-  // fred.auth('Eo85u1MXfxVA4udvqIdjnyTYkL51Zz0AFABP962M', function(error, result) {
-  //   if(error) {
-  //     console.log("Login Failed!", error);
-  //   } else {
-  //     console.log('Authenticated successfully with payload:', result.auth);
-  //     console.log('Auth expires at:', new Date(result.expires * 1000));
-  //   }
-  // });
-
-  // // // CHANGE TO TOPIC ANALYSIS IN LATER VERSION - lols
-  // // (function addTopic (obj) {
-  // //   var choices = ['kittens', 'hackathons', 'bear hunting', 'the biggest shirt in the world'];
-  // //   obj.topic = choices[Math.floor(Math.random() * choices.length)];
-  // // })(item);
-
-  // fred.child(Math.round(id)).set(item);
 };
 
 document.addEventListener('DOMContentLoaded', function () {

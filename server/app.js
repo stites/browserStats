@@ -16,7 +16,8 @@ var express = require('express')
   , user = require('./routes/user')
   , http = require('http')
   , request = require('request')
-  , path = require('path');
+  , path = require('path')
+  , urlUtil = require('url');
 
 // clean urls:
 var sanitizer = require("sanitizer");
@@ -73,8 +74,8 @@ app.configure('development', function(){
 
 app.post('/', function(req, res) {
   // fix url operators
-  // var url = path.
-  request(req.body.url, function (error, response, body) {
+  var url = urlUtil.parse(req.body.url).href;
+  request(url, function (error, response, body) {
     if (!error && response.statusCode == 200) {
       var text = stripHTML(body);
       // var keywords = getKeywords(body);
