@@ -165,10 +165,11 @@ var toggleDetails = function (datum) {
   if (datum._values) {
     if (datum._values[0].url){
       for (var i = 0; i < datum._values.length; i++) {
+          var title = (datum._values[i].title) && (datum._values[i].title).substring(0,60);
           d3.select(".stats")
               .append('div')
               .html('<div class="info">'+
-                      '<div class="url"><a href="'+datum._values[i].url+'">'+datum._values[i].title+'</a></div>'+
+                      '<div class="title"><a href="'+datum._values[i].url+'" target="_blank">'+title+'</a></div>'+
                       '<div class="typedCount">typedCount: '+datum._values[i].typedCount+' </div>'+
                       '<div class="visitCount">visitCount: '+datum._values[i].visitCount+'</div>'+
                       '<div class="topic">topic: '+datum._values[i].topic+'</div></div>')

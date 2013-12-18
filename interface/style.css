@@ -21,12 +21,27 @@ div.stats .header {
   color: white;
   font-size: 35px;
 }
-div.stats span {
+div.stats {
   background: url(zwartevilt.png);
   position: absolute;
+  padding: 10px 0px 10px 10px;
   z-index:99;
-  width:300px;
+  width:280px;
   height:980px;
+  overflow:auto;
+}
+.info {
+  width:220px;
+}
+
+div.info a {
+  color:grey;
+  text-decoration: none;
+}
+
+.title {
+  font-size:15px;
+  line-height: 20px;
 }
 
 svg {
