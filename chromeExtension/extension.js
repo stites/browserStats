@@ -28,7 +28,7 @@ var addToFirebase = function (item, id) {
     type: 'POST',
     // beforeSend: function(xhr){xhr.setRequestHeader('X-Test-Header', 'test-value');},
     data: {
-        url: 'http://www.google.com'
+        url: 'http://www.hackreactor.com'
     },
     success: function(response) {
         // response now contains full HTML of google.com
@@ -38,6 +38,7 @@ var addToFirebase = function (item, id) {
       console.log('error',reason);
     }
   });
+
   // var fred = new Firebase('https://stites.firebaseio.com/Users/Fred');
 
   // fred.auth('Eo85u1MXfxVA4udvqIdjnyTYkL51Zz0AFABP962M', function(error, result) {
@@ -49,11 +50,11 @@ var addToFirebase = function (item, id) {
   //   }
   // });
 
-  // // CHANGE TO TOPIC ANALYSIS IN LATER VERSION - lols
-  // (function addTopic (obj) {
-  //   var choices = ['kittens', 'hackathons', 'bear hunting', 'the biggest shirt in the world'];
-  //   obj.topic = choices[Math.floor(Math.random() * choices.length)];
-  // })(item);
+  // // // CHANGE TO TOPIC ANALYSIS IN LATER VERSION - lols
+  // // (function addTopic (obj) {
+  // //   var choices = ['kittens', 'hackathons', 'bear hunting', 'the biggest shirt in the world'];
+  // //   obj.topic = choices[Math.floor(Math.random() * choices.length)];
+  // // })(item);
 
   // fred.child(Math.round(id)).set(item);
 };

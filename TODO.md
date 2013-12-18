@@ -41,11 +41,12 @@
 + beautify
 
 [ ]Sprint 8:
-- plug into readability API and get content from that
-- post content to firebase
++ get content via express
++ plug into natural
+- get natural to produce topics
 
 [ ]Sprint 9:
-- plug into natural
-- get natural to produce topics for content from readability
-- sent to database
+- post topics to app
+- post topics to firebase
+<!-- - sent to database -->
 

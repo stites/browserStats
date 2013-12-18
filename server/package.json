@@ -10,7 +10,10 @@
     "jade": "~0.34.0",
     "node-redis": "~0.1.7",
     "natural": "~0.1.25",
-    "http-request": "~0.6.1"
+    "http-request": "~0.6.1",
+    "jquery": "~1.8.3",
+    "sanitizer": "~0.1.1",
+    "node-readability": "~0.2.0"
   },
   "devDependencies": {
     "grunt": "~0.4.1",

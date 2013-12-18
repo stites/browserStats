@@ -10,6 +10,41 @@ var express = require('express')
   , request = require('request')
   , path = require('path');
 
+// clean urls:
+var sanitizer = require("sanitizer");
+
+function stripHTML(html) {
+    var clean = sanitizer.sanitize(html, function (str) {
+        return str;
+    });
+    clean = clean.replace(/<(?:.|\n)*?>/gm, "");
+    clean = clean.replace(/(?:(?:\r\n|\r|\n)\s*){2,}/ig, "\n");
+
+    return clean.trim();
+}
+
+// THIS IS NOT WORKING RBEWKALJSAFKJL:!!!!
+// function getKeywords(html) {
+//     var meta = html.match(/<meta[\s]+name=['"]keywords['"][\s\S]*content=['"]([\s\S]*)['"]>[\s\S]+/m);
+//     console.log('take1');
+//     if( (meta) && (meta.length>1) ){
+//       meta = sanitizer.sanitize(meta[1], function (str) {return str;});
+//       console.log('sent1!');
+//       return meta.trim();
+//     } else {
+//       meta = html.match(/<meta[\s]+name=['"]description['"][\s\S]*content=['"]([\s\S]*)['"]>([\s\S]+)$/m);
+//       console.log('take2');
+//       if( (meta) && (meta.length>1) ){
+//         console.log(meta[1]);
+//         meta = sanitizer.sanitize(meta[1], function (str) {return str;});
+//         return meta.trim();
+//       }
+//     }
+// }
+
+var natural = require('natural'),
+  tokenizer = new natural.WordTokenizer();
+
 var app = express();
 
 app.configure(function(){
@@ -28,19 +63,29 @@ app.configure('development', function(){
   app.use(express.errorHandler());
 });
 
-// app.get('/', routes.index);
-// app.get('/users', user.list);
-
-app.get('/', function () {
-  console.log('received get request')
-});
 app.post('/', function(req, res) {
+  // fix url operators
   // var url = path.
   request(req.body.url, function (error, response, body) {
     if (!error && response.statusCode == 200) {
-      var bodySlice = body.split(/<script>[\w\W]+<\/script>/).join('');
-      var text = bodySlice.replace(/<[^>]*>/g, "");
-      console.log(text);
+      var text = stripHTML(body);
+      // var keywords = getKeywords(body);
+      natural.LancasterStemmer.attach();
+      var tokens = text.tokenizeAndStem();
+      var freq = {}, importantWord = '', importantFreq = 0;
+
+      for (var i = 0; i < tokens.length; i++) {
+        freq[tokens[i]] = freq[tokens[i]] || 0;
+        freq[tokens[i]]++;
+      };
+
+      for (var i = 0; i < tokens.length; i++) {
+        if (freq[tokens[i]] > importantFreq){
+          importantWord = tokens[i];
+          importantFreq = freq[tokens[i]];
+        }
+      };
+      response.end(importantWord);
     }
   })
 });
